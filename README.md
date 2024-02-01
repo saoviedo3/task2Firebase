@@ -1,11 +1,11 @@
 # Task Manager
 
-Este proyecto es una aplicación de gestión de tareas construida con React y Supabase.
+Este proyecto es una aplicación de gestión de tareas construida con React y Firebase.
 
 ## Tecnologías utilizadas
 
 - React.js
-- Supabase
+- Firebase
 
 ## Cómo contribuir
 
@@ -16,27 +16,24 @@ Este proyecto es una aplicación de gestión de tareas construida con React y Su
 5. Haz un push a tu rama (`git push origin nombre-de-tu-rama`).
 6. Crea un "Pull Request" desde tu rama en GitHub.
 
-## Configuración de Supabase
+## Configuración de Firebase
 
-1. Crea una cuenta en [Supabase](https://supabase.io/).
+## cambios importantes
+
+1. Crea una cuenta en Firebase.
 2. Crea un nuevo proyecto.
-3. En la sección "Database", crea una nueva tabla para las tareas. Puedes usar el siguiente código SQL:
-```sql
-CREATE TABLE tasks (
-  id SERIAL PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  description TEXT,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-```	
-4. Configura las variables de entorno `VITE_REACT_APP_SUPABASE_URL` y `VITE_REACT_APP_SUPABASE_ANON_KEY` con los valores proporcionados por Supabase.
+3. En la sección "Database", crea una nueva colección para las tareas en Firestore.
+4. Configura las variables de entorno `VITE_REACT_APP_FIREBASE_API_KEY`, `VITE_REACT_APP_FIREBASE_AUTH_DOMAIN`, y `VITE_REACT_APP_FIREBASE_PROJECT_ID` con los valores proporcionados por Firebase.
+5. Habilita la autenticación por correo electrónico en la sección "Authentication" de Firebase.
 
-## Mejoras futuras
+Configuración de Firebase: Reemplazamos Supabase con Firebase como tu base de datos. Para hacer esto, inicializamos Firebase en tu archivo App.jsx y obtuvimos una referencia a Firestore y Auth.
 
-- ❌ Autenticación de usuarios.
-- ❌ Asignación de tareas a usuarios.
-- ❌ Actualización de tareas: permitir a los usuarios modificar las tareas existentes.
-- ❌ Notificaciones por correo electrónico cuando se asigna una tarea.
-- ❌ Filtros para la lista de tareas.
-- ❌ Ruta de tareas completadas: mostrar en una ruta separada las tareas que ya se han realizado.
+Autenticación: Agregamos autenticación a tu aplicación utilizando Firebase Auth. Creamos un estado para el usuario actual y una función handleLogin que inicia sesión en Firebase Auth con un correo electrónico y una contraseña. Si el usuario no está autenticado, mostramos una página de inicio de sesión. Una vez que el usuario está autenticado, mostramos la aplicación.
+
+Formulario de tareas: Actualizamos tu componente TaskForm.jsx para agregar tareas a Firestore en lugar de Supabase. Cuando se envía el formulario, llamamos a la función signInWithEmailAndPassword de Firebase Auth.
+
+Lista de tareas: Actualizamos tu componente TaskList.jsx para leer tareas de Firestore en lugar de Supabase. Utilizamos el hook useEffect para llamar a la función fetchTasks cuando se monta el componente. Esta función recupera todas las tareas de la colección ‘tasks’ de tu base de datos Firestore y las establece en el estado local tasks.
+
+Eliminación de tareas: También proporcionamos una función deleteTask para eliminar tareas por su id en Firestore.
+
+Formulario de inicio de sesión: Creamos un nuevo componente LoginForm.jsx para manejar el inicio de sesión del usuario. Este formulario llama a la función signInWithEmailAndPassword de Firebase Auth cuando se envía y luego pasa el usuario autenticado a la función onLogin.
