@@ -1,20 +1,49 @@
-// App.jsx
-import { createClient } from '@supabase/supabase-js';
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { useState } from 'react';
 import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
+import LoginForm from './components/LoginForm';
 import './index.css';
 
-// Configurar el cliente Supabase
-const supabaseUrl = import.meta.env.VITE_REACT_APP_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_REACT_APP_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Configurar Firebase
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_REACT_APP_FIREBASE_PROJECT_ID,
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth();
 
 const App = () => {
+  const [user, setUser] = useState(null);
+
+  const handleLogin = async (email, password) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      setUser(userCredential.user);
+    } catch (error) {
+      console.error('Error signing in:', error.message);
+    }
+  };
+
+  if (!user) {
+    return (
+      <div>
+        <h1>Login</h1>
+        <LoginForm auth={auth} onLogin={setUser} />
+      </div>
+    );
+  }
+
   return (
     <div>
       <h1>Task Manager</h1>
-      <TaskForm supabase={supabase} />
-      <TaskList supabase={supabase} />
+      <TaskForm db={db} />
+      <TaskList db={db} />
     </div>
   );
 };

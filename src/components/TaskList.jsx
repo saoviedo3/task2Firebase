@@ -1,39 +1,27 @@
-// TaskList.jsx
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 
-const TaskList = ({ supabase }) => {
+const TaskList = ({ db }) => {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    async function fetchTasks() {
-      try {
-        let { data: tasks, error } = await supabase
-          .from('tasks')
-          .select('*')
-          .order('id', { ascending: true });
-
-        if (error) {
-          throw error;
-        }
-
-        setTasks(tasks);
-      } catch (error) {
-        console.error('Error fetching tasks:', error.message);
-      }
-    }
+    const fetchTasks = async () => {
+      const querySnapshot = await getDocs(collection(db, 'tasks'));
+      setTasks(querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+    };
 
     fetchTasks();
-  }, [supabase]);
+  }, [db]);
 
-  async function deleteTask(id) {
+  const deleteTask = async (id) => {
     try {
-      await supabase.from('tasks').delete().eq('id', id);
+      await deleteDoc(doc(db, 'tasks', id));
       setTasks(tasks.filter((task) => task.id !== id));
     } catch (error) {
       console.error('Error deleting task:', error.message);
     }
-  }
+  };
 
   return (
     <div>
@@ -51,7 +39,7 @@ const TaskList = ({ supabase }) => {
 };
 
 TaskList.propTypes = {
-  supabase: PropTypes.object.isRequired,
+  db: PropTypes.object.isRequired,
 };
 
 export default TaskList;

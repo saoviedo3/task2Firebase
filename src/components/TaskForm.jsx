@@ -1,18 +1,15 @@
-// TaskForm.jsx
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { collection, addDoc } from 'firebase/firestore';
 
-const TaskForm = ({ supabase }) => {
+const TaskForm = ({ db }) => {
   const [title, setTitle] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title.trim()) return;
     try {
-      const { error } = await supabase.from('tasks').insert([{ title }]);
-      if (error) {
-        throw error;
-      }
+      await addDoc(collection(db, 'tasks'), { title });
       setTitle('');
     } catch (error) {
       console.error('Error adding task:', error.message);
@@ -33,7 +30,7 @@ const TaskForm = ({ supabase }) => {
 };
 
 TaskForm.propTypes = {
-  supabase: PropTypes.object.isRequired,
+  db: PropTypes.object.isRequired,
 };
 
 export default TaskForm;
