@@ -18,14 +18,30 @@ Este proyecto es una aplicación de gestión de tareas construida con React y Fi
 
 ## Configuración de Firebase
 
-
-
 1. Crea una cuenta en Firebase.
 2. Crea un nuevo proyecto.
 3. En la sección "Database", crea una nueva colección para las tareas en Firestore.
 4. Configura las variables de entorno `VITE_REACT_APP_FIREBASE_API_KEY`, `VITE_REACT_APP_FIREBASE_AUTH_DOMAIN`, y `VITE_REACT_APP_FIREBASE_PROJECT_ID` con los valores proporcionados por Firebase.
 5. Habilita la autenticación por correo electrónico en la sección "Authentication" de Firebase.
 
+## Como correr el programa
+
+1. Crear el archivo .env con el siguiente formato y colocar sus variables
+```
+      VITE_REACT_APP_FIREBASE_API_KEY=
+      VITE_REACT_APP_FIREBASE_AUTH_DOMAIN=
+      VITE_REACT_APP_FIREBASE_PROJECT_ID=
+```	
+      
+2. Ingresar a la terminar del proyecto y correr el siguiente codigo para actualizar lo paquetes
+```
+    npm i
+```
+
+3. Correr el siguiente codigo para inciar el proyecto
+```
+    npm run dev
+```
 
 ## cambios importantes
 
