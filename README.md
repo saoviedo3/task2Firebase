@@ -10,7 +10,7 @@ Este proyecto es una aplicación de gestión de tareas construida con React y Fi
 ## Cómo contribuir
 
 1. Haz un "Fork" del repositorio.
-2. Clona tu fork en tu máquina local (`git clone https://github.com/statick88/task`).
+2. Clona tu fork en tu máquina local (`git clone https://github.com/saoviedo3/task2Firebase`).
 3. Crea una nueva rama para tus cambios (`git checkout -b nombre-de-tu-rama`).
 4. Realiza tus cambios y haz un commit (`git commit -m "Descripción de los cambios"`).
 5. Haz un push a tu rama (`git push origin nombre-de-tu-rama`).
@@ -38,4 +38,6 @@ Este proyecto es una aplicación de gestión de tareas construida con React y Fi
 
 ## Autores
 
-Carol Jacome - Steven Oviedo
+Carol Jacome - Steven Oviedo (Cambios con firebase)
+
+DIEGO MEDARDO SAAVEDRA GARCIA "statick88" (Codigo Original con supabase)
